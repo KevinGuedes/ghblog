@@ -10,6 +10,7 @@ export const PostCardContainer = styled.article`
   border: 2px solid transparent;
   border-radius: 10px;
   padding: 2rem;
+  cursor: pointer;
 
   &:hover {
     border-color: ${(props) => props.theme.colors.base.label};

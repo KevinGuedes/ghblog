@@ -33,10 +33,13 @@ export const Header = styled.header`
     gap: 0.5rem;
 
     text-decoration: none;
+    text-transform: uppercase;
     font-size: ${(props) => props.theme.sizes.xsm};
     color: ${(props) => props.theme.colors.brand.blue};
 
     border-bottom: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0.1rem;
 
     &:hover {
       transition: border-color 0.3s;
