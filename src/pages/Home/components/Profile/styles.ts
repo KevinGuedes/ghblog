@@ -38,7 +38,6 @@ export const Header = styled.header`
     color: ${(props) => props.theme.colors.brand.blue};
 
     border-bottom: 1px solid transparent;
-    border-radius: 4px;
     padding: 0.1rem;
 
     &:hover {
