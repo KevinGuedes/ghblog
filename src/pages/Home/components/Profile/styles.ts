@@ -1,13 +1,35 @@
 import styled from 'styled-components'
 
 export const ProfileContainer = styled.section`
-  display: flex;
-  gap: 2rem;
-
   padding: 2rem 2.5rem;
+  height: 13.25rem;
   background: ${(props) => props.theme.colors.base.profile};
   border-radius: 10px;
   box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  justify-content: center;
+`
+
+export const ProfileContent = styled.div`
+  display: flex;
+  flex: 1;
+  gap: 2rem;
+
+  > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    p {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-align: justify;
+    }
+  }
 
   img {
     width: 9.25rem;
