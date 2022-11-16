@@ -13,6 +13,7 @@ export const PostCardContainer = styled.article`
   cursor: pointer;
 
   &:hover {
+    transition: border-color 0.2s;
     border-color: ${(props) => props.theme.colors.base.label};
   }
 
