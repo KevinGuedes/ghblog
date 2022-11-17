@@ -1,4 +1,3 @@
-import { CanceledError } from 'axios'
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { createContext } from 'use-context-selector'
 import { api } from '../lib/axios'
@@ -29,7 +28,8 @@ export interface BlogContextData {
   isLoading: boolean
   profileData: ProfileData
   posts: Post[]
-  fetchPostByNumber(postNumber: number): Promise<Post>
+  fetchPostByNumber(postNumber: number): Promise<Post | undefined>
+  fetchPostsByQuery(query: string): Promise<void>
 }
 
 export const BlogContext = createContext({} as BlogContextData)
@@ -38,75 +38,68 @@ interface BlogContextProviderProps {
   children: ReactNode
 }
 
-export function BlogContextProvider({ children }: BlogContextProviderProps) {
-  const user: string = import.meta.env.VITE_USER
-  const repo: string = import.meta.env.VITE_REPO
+const user: string = import.meta.env.VITE_USER
+const repo: string = import.meta.env.VITE_REPO
 
+export function BlogContextProvider({ children }: BlogContextProviderProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [profileData, setProfileData] = useState<ProfileData>({} as ProfileData)
   const [posts, setPosts] = useState<Post[]>([])
 
-  const fetchProfileData = useCallback(
-    async (signal: AbortSignal) => {
+  const fetchProfileData = useCallback(async () => {
+    const profileResponse = await api.get<ProfileData>(`users/${user}`)
+    setProfileData(profileResponse.data)
+  }, [])
+
+  const fetchPosts = useCallback(async (query: string = '') => {
+    const postsResponse = await api.get<{ items: Post[] }>('search/issues', {
+      params: {
+        q: `repo:${user}/${repo} is:issue ${query}`,
+      },
+    })
+    setPosts(postsResponse.data.items)
+  }, [])
+
+  const fetchPostsByQuery = useCallback(
+    async (query: string) => {
       try {
-        const profileResponse = await api.get(`users/${user}`, {
-          signal,
-        })
-        setProfileData(profileResponse.data)
+        setIsLoading(true)
+        fetchPosts(query)
       } catch (error) {
-        if (error instanceof CanceledError) {
-          console.warn('Request cancelled')
-        } else {
-          throw error
-        }
+        console.error(error)
+      } finally {
+        setIsLoading(false)
       }
     },
-    [user],
-  )
-
-  const fetchPosts = useCallback(
-    async (signal: AbortSignal, query: string = '') => {
-      try {
-        const postsResponse = await api.get('search/issues', {
-          signal,
-          params: {
-            q: `repo:${user}/${repo} is:issue ${query}`,
-          },
-        })
-
-        setPosts(postsResponse.data.items)
-      } catch (error) {
-        if (error instanceof CanceledError) {
-          console.warn('Request cancelled')
-        } else {
-          throw error
-        }
-      }
-    },
-    [repo, user],
+    [fetchPosts],
   )
 
   async function fetchPostByNumber(postNumber: number) {
-    const postsResponse = await api.get(`search/issues/${postNumber}`)
-    return postsResponse.data as Post
-  }
-
-  useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
-
     try {
       setIsLoading(true)
-      fetchProfileData(signal)
-      fetchPosts(signal)
+      const postsResponse = await api.get<Post>(`search/issues/${postNumber}`)
+      return postsResponse.data
     } catch (error) {
       console.error(error)
     } finally {
       setIsLoading(false)
     }
+  }
 
-    return () => controller.abort()
+  const fetchInitialData = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      await Promise.all([fetchProfileData(), fetchPosts()])
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
   }, [fetchProfileData, fetchPosts])
+
+  useEffect(() => {
+    fetchInitialData()
+  }, [fetchInitialData])
 
   return (
     <BlogContext.Provider
@@ -115,6 +108,7 @@ export function BlogContextProvider({ children }: BlogContextProviderProps) {
         profileData,
         posts,
         fetchPostByNumber,
+        fetchPostsByQuery,
       }}
     >
       {children}
