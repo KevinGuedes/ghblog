@@ -1,3 +1,4 @@
+import { useContextSelector } from 'use-context-selector'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -5,67 +6,31 @@ import {
   faUserGroup,
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons'
+
 import { Header, ProfileContainer, ProfileContent, ProfileInfo } from './styles'
-import { useEffect, useState } from 'react'
-import { api } from '../../../../lib/axios'
 import { Spinner } from '../../../../components/Spinner'
-
-interface ProfileData {
-  fullName: string
-  userName: string
-  avatarUrl: string
-  gitHubUrl: string
-  bio: string
-  company?: string
-  followers: number
-}
-
-const user: string = import.meta.env.VITE_USER
+import { BlogContext } from '../../../../contexts/BlogContext'
 
 export function Profile() {
-  const [profileData, setProfileData] = useState<ProfileData>({} as ProfileData)
-  const [isLoadingProfileData, setIsLoadingProfileData] = useState(true)
-
-  async function fetchProfileData() {
-    try {
-      setIsLoadingProfileData(true)
-      const { data } = await api.get(`users/${user}`)
-      setProfileData({
-        fullName: data.name,
-        userName: data.login,
-        avatarUrl: data.avatar_url,
-        gitHubUrl: data.html_url,
-        company: data.company,
-        bio: data.bio,
-        followers: data.followers,
-      })
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setIsLoadingProfileData(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchProfileData()
-  }, [])
+  const { isLoading, profileData } = useContextSelector(
+    BlogContext,
+    (context) => {
+      return { isLoading: context.isLoading, profileData: context.profileData }
+    },
+  )
 
   return (
     <ProfileContainer>
-      {isLoadingProfileData ? (
+      {isLoading ? (
         <Spinner message="Buscando dados do perfil..." />
       ) : (
         <ProfileContent>
-          <img src={profileData.avatarUrl} alt="" />
+          <img src={profileData.avatar_url} alt="" />
           <div>
             <div>
               <Header>
-                <h1>{profileData.fullName}</h1>
-                <a
-                  href={profileData.gitHubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <h1>{profileData.name}</h1>
+                <a href={profileData.html_url} target="_blank" rel="noreferrer">
                   GitHub <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
                 </a>
               </Header>
@@ -75,7 +40,7 @@ export function Profile() {
             <ProfileInfo>
               <span>
                 <FontAwesomeIcon icon={faGithub} />
-                {profileData.userName}
+                {profileData.login}
               </span>
               <span>
                 <FontAwesomeIcon icon={faBuilding} />

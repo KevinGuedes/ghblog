@@ -1,20 +1,31 @@
+import { useContextSelector } from 'use-context-selector'
+import { BlogContext } from '../../contexts/BlogContext'
 import { PostCard } from './components/PostCard'
 import { Profile } from './components/Profile'
 import { SearchForm } from './components/SearchForm'
 import { PostList } from './styles'
 
 export function Home() {
+  const { isLoading, posts } = useContextSelector(BlogContext, (context) => {
+    return {
+      isLoading: context.isLoading,
+      posts: context.posts,
+    }
+  })
+
+  const postsCount = posts.length
+  const showPostsList = !isLoading
+
   return (
-    <section>
+    <article>
       <Profile />
-      <SearchForm />
+      <SearchForm postsCount={postsCount} />
       <PostList>
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
+        {showPostsList &&
+          posts.map((post) => {
+            return <PostCard key={post.number} post={post} />
+          })}
       </PostList>
-    </section>
+    </article>
   )
 }
