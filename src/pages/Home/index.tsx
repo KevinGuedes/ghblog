@@ -22,9 +22,9 @@ export function Home() {
   }
 
   useEffect(() => {
-    async function fetchPosts(query: string, signal?: AbortSignal) {
+    async function fetchPosts(query: string) {
       try {
-        const posts = await fetchPostsByQuery(query, signal)
+        const posts = await fetchPostsByQuery(query)
         setPosts(posts)
       } catch (error) {
         console.error(error)

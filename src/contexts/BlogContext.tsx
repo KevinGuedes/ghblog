@@ -27,7 +27,7 @@ export interface Post {
 interface BlogContextData {
   fetchProfileData: () => Promise<ProfileData>
   fetchPostByPostNumber(postNumber: number): Promise<Post>
-  fetchPostsByQuery: (query: string, signal?: AbortSignal) => Promise<Post[]>
+  fetchPostsByQuery: (query: string) => Promise<Post[]>
 }
 
 export const BlogContext = createContext({} as BlogContextData)
@@ -46,10 +46,9 @@ export function BlogContextProvider({ children }: BlogContextProviderProps) {
   }, [])
 
   const fetchPostsByQuery = useCallback(
-    async (query: string, signal?: AbortSignal): Promise<Post[]> => {
+    async (query: string): Promise<Post[]> => {
       console.log('calling search api')
       const postsResponse = await api.get<{ items: Post[] }>('search/issues', {
-        signal,
         params: {
           q: `repo:${user}/${repo} is:issue ${query}`,
         },

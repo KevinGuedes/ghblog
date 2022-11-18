@@ -47,4 +47,9 @@ export const PostViewerContainer = styled.section`
   ol {
     padding-left: 2rem;
   }
+
+  table {
+    border: 1px solid ${(props) => props.theme.colors.base.label};
+    width: 100%;
+  }
 `
