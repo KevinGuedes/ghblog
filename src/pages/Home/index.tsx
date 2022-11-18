@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useContextSelector } from 'use-context-selector'
 import { Spinner } from '../../components/Spinner'
 import { BlogContext, Post } from '../../contexts/BlogContext'
@@ -21,10 +21,9 @@ export function Home() {
     setQuery(query)
   }
 
-  const fetchPosts = useCallback(
-    async (query: string, signal?: AbortSignal) => {
+  useEffect(() => {
+    async function fetchPosts(query: string, signal?: AbortSignal) {
       try {
-        setIsLoading(true)
         const posts = await fetchPostsByQuery(query, signal)
         setPosts(posts)
       } catch (error) {
@@ -32,17 +31,15 @@ export function Home() {
       } finally {
         setIsLoading(false)
       }
-    },
-    [fetchPostsByQuery],
-  )
+    }
 
-  useEffect(() => {
+    setIsLoading(true)
     const timer = setTimeout(() => {
       fetchPosts(query)
     }, 1000)
 
     return () => clearTimeout(timer)
-  }, [fetchPosts, query])
+  }, [query, fetchPostsByQuery])
 
   return (
     <HomeContainer>
