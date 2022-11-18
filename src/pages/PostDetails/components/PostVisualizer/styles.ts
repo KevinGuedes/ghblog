@@ -39,7 +39,8 @@ export const PostViewerContainer = styled.section`
   }
 
   pre {
-    margin: 1.5rem;
+    font-size: ${(props) => props.theme.sizes.sm};
+    margin: 1.5rem 0;
   }
 
   ul,

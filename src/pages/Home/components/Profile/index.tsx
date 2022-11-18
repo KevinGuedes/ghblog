@@ -9,15 +9,32 @@ import {
 
 import { Header, ProfileContainer, ProfileContent, ProfileInfo } from './styles'
 import { Spinner } from '../../../../components/Spinner'
-import { BlogContext } from '../../../../contexts/BlogContext'
+import { BlogContext, ProfileData } from '../../../../contexts/BlogContext'
+import { useCallback, useEffect, useState } from 'react'
 
 export function Profile() {
-  const { isLoading, profileData } = useContextSelector(
+  const [profileData, setProfileData] = useState<ProfileData>({} as ProfileData)
+  const [isLoading, setIsLoading] = useState(true)
+  const fetchProfileData = useContextSelector(
     BlogContext,
-    (context) => {
-      return { isLoading: context.isLoading, profileData: context.profileData }
-    },
+    (context) => context.fetchProfileData,
   )
+
+  const fetchPostDetailsByNumber = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      const profileData = await fetchProfileData()
+      setProfileData(profileData)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [fetchProfileData])
+
+  useEffect(() => {
+    fetchPostDetailsByNumber()
+  }, [fetchPostDetailsByNumber])
 
   return (
     <ProfileContainer>

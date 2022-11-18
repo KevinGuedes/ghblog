@@ -1,8 +1,8 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { ReactNode, useCallback } from 'react'
 import { createContext } from 'use-context-selector'
 import { api } from '../lib/axios'
 
-interface ProfileData {
+export interface ProfileData {
   name: string
   login: string
   avatar_url: string
@@ -17,19 +17,17 @@ export interface Post {
   title: string
   body: string
   comments: number
-  url: string
+  html_url: string
   created_at: string
   user: {
     login: string
   }
 }
 
-export interface BlogContextData {
-  isLoading: boolean
-  profileData: ProfileData
-  posts: Post[]
-  fetchPostByNumber(postNumber: number): Promise<Post | undefined>
-  fetchPostsByQuery(query: string): Promise<void>
+interface BlogContextData {
+  fetchProfileData: () => Promise<ProfileData>
+  fetchPostByPostNumber(postNumber: number): Promise<Post>
+  fetchPostsByQuery: (query: string, signal?: AbortSignal) => Promise<Post[]>
 }
 
 export const BlogContext = createContext({} as BlogContextData)
@@ -42,72 +40,41 @@ const user: string = import.meta.env.VITE_USER
 const repo: string = import.meta.env.VITE_REPO
 
 export function BlogContextProvider({ children }: BlogContextProviderProps) {
-  const [isLoading, setIsLoading] = useState(true)
-  const [profileData, setProfileData] = useState<ProfileData>({} as ProfileData)
-  const [posts, setPosts] = useState<Post[]>([])
-
-  const fetchProfileData = useCallback(async () => {
+  const fetchProfileData = useCallback(async (): Promise<ProfileData> => {
     const profileResponse = await api.get<ProfileData>(`users/${user}`)
-    setProfileData(profileResponse.data)
-  }, [])
-
-  const fetchPosts = useCallback(async (query: string = '') => {
-    const postsResponse = await api.get<{ items: Post[] }>('search/issues', {
-      params: {
-        q: `repo:${user}/${repo} is:issue ${query}`,
-      },
-    })
-    setPosts(postsResponse.data.items)
+    return profileResponse.data
   }, [])
 
   const fetchPostsByQuery = useCallback(
-    async (query: string) => {
-      try {
-        setIsLoading(true)
-        fetchPosts(query)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setIsLoading(false)
-      }
+    async (query: string, signal?: AbortSignal): Promise<Post[]> => {
+      console.log('calling search api')
+      const postsResponse = await api.get<{ items: Post[] }>('search/issues', {
+        signal,
+        params: {
+          q: `repo:${user}/${repo} is:issue ${query}`,
+        },
+      })
+
+      return postsResponse.data.items
     },
-    [fetchPosts],
+    [],
   )
 
-  async function fetchPostByNumber(postNumber: number) {
-    try {
-      setIsLoading(true)
-      const postsResponse = await api.get<Post>(`search/issues/${postNumber}`)
+  const fetchPostByPostNumber = useCallback(
+    async (postNumber: number): Promise<Post> => {
+      const postsResponse = await api.get<Post>(
+        `repos/${user}/${repo}/issues/${postNumber}`,
+      )
       return postsResponse.data
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const fetchInitialData = useCallback(async () => {
-    try {
-      setIsLoading(true)
-      await Promise.all([fetchProfileData(), fetchPosts()])
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [fetchProfileData, fetchPosts])
-
-  useEffect(() => {
-    fetchInitialData()
-  }, [fetchInitialData])
+    },
+    [],
+  )
 
   return (
     <BlogContext.Provider
       value={{
-        isLoading,
-        profileData,
-        posts,
-        fetchPostByNumber,
+        fetchProfileData,
+        fetchPostByPostNumber,
         fetchPostsByQuery,
       }}
     >

@@ -1,34 +1,15 @@
-import { ChangeEvent, useEffect, useState } from 'react'
-import { useContextSelector } from 'use-context-selector'
-import { BlogContext } from '../../../../contexts/BlogContext'
+import { ChangeEvent } from 'react'
 import { SearchFormContainer } from './styles'
 
 interface SearchFormProps {
   postsCount: number
+  onQueryChange: (query: string) => void
 }
 
-export function SearchForm({ postsCount }: SearchFormProps) {
-  const [query, setQuery] = useState('')
-  const fetchPostsByQuery = useContextSelector(
-    BlogContext,
-    (context) => context.fetchPostsByQuery,
-  )
-
-  function handleSearchPosts(event: ChangeEvent<HTMLInputElement>) {
-    setQuery(event.target.value)
+export function SearchForm({ postsCount, onQueryChange }: SearchFormProps) {
+  function handleQueryChange(event: ChangeEvent<HTMLInputElement>) {
+    onQueryChange(event.target.value)
   }
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      console.log('buscando')
-      fetchPostsByQuery(query)
-    }, 2000)
-
-    return () => {
-      console.log('cancelando')
-      clearInterval(timer)
-    }
-  }, [query, fetchPostsByQuery])
 
   return (
     <SearchFormContainer>
@@ -41,8 +22,7 @@ export function SearchForm({ postsCount }: SearchFormProps) {
         <input
           type="text"
           placeholder="Buscar conteúdo"
-          onChange={handleSearchPosts}
-          value={query}
+          onChange={handleQueryChange}
         />
       </form>
     </SearchFormContainer>

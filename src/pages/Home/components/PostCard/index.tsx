@@ -1,17 +1,37 @@
+import { useNavigate } from 'react-router-dom'
 import { Post } from '../../../../contexts/BlogContext'
 import { PostCardContainer } from './styles'
+
+import { format, formatDistanceToNowStrict } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
 
 interface PostCardProps {
   post: Post
 }
 
 export function PostCard({ post }: PostCardProps) {
+  const navigate = useNavigate()
+
+  function handleCardClick() {
+    navigate(`/post/${post.number}`)
+  }
+
+  const createdAt = new Date(post.created_at)
+  const creationDateRelativeToNow = formatDistanceToNowStrict(createdAt, {
+    locale: ptBR,
+    unit: 'day',
+    addSuffix: true,
+  })
+  const formattedCreationDate = format(createdAt, "d 'de' LLLL 'às' HH:mm", {
+    locale: ptBR,
+  })
+
   return (
-    <PostCardContainer>
+    <PostCardContainer onClick={handleCardClick}>
       <header>
         <h1>{post.title}</h1>
-        <time title="11 de Maio às 08:13" dateTime={post.created_at}>
-          Há 1 dia
+        <time title={formattedCreationDate} dateTime={post.created_at}>
+          {creationDateRelativeToNow}
         </time>
       </header>
       <p>{post.body}</p>

@@ -30,6 +30,10 @@ export const PostCardContainer = styled.article`
 
     time {
       color: ${(props) => props.theme.colors.base.span};
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
     }
   }
 
