@@ -1,3 +1,8 @@
+import { Header, ProfileContainer, ProfileContent, ProfileInfo } from './styles'
+import { Spinner } from '../../../../components/Spinner'
+import { BlogContext, ProfileData } from '../../../../contexts/BlogContext'
+import { useCallback, useEffect, useState } from 'react'
+
 import { useContextSelector } from 'use-context-selector'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
@@ -7,11 +12,6 @@ import {
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { Header, ProfileContainer, ProfileContent, ProfileInfo } from './styles'
-import { Spinner } from '../../../../components/Spinner'
-import { BlogContext, ProfileData } from '../../../../contexts/BlogContext'
-import { useCallback, useEffect, useState } from 'react'
-
 export function Profile() {
   const [profileData, setProfileData] = useState<ProfileData>({} as ProfileData)
   const [isLoading, setIsLoading] = useState(true)
@@ -20,7 +20,7 @@ export function Profile() {
     (context) => context.fetchProfileData,
   )
 
-  const fetchPostDetailsByNumber = useCallback(async () => {
+  const fetchProfile = useCallback(async () => {
     try {
       setIsLoading(true)
       const profileData = await fetchProfileData()
@@ -33,8 +33,8 @@ export function Profile() {
   }, [fetchProfileData])
 
   useEffect(() => {
-    fetchPostDetailsByNumber()
-  }, [fetchPostDetailsByNumber])
+    fetchProfile()
+  }, [fetchProfile])
 
   return (
     <ProfileContainer>
