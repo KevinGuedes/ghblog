@@ -29,7 +29,7 @@ export function Home() {
     setQueryValue(event.target.value)
   }
 
-  const postsCount = posts.length ?? 0
+  const postsCount = isLoading ? 0 : posts.length
 
   return (
     <HomeContainer>

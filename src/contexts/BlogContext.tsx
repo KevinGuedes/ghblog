@@ -109,6 +109,8 @@ export function BlogContextProvider({ children }: BlogContextProviderProps) {
 
     if (isSearchEnabled.current) {
       setIsSearchingPosts(true)
+      setPosts([])
+
       timer = setTimeout(() => {
         fetchPosts(query)
       }, 1000)
