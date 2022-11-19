@@ -1,60 +1,76 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent } from 'react'
 import { useContextSelector } from 'use-context-selector'
 import { Spinner } from '../../components/Spinner'
-import { BlogContext, Post } from '../../contexts/BlogContext'
+import { BlogContext } from '../../contexts/BlogContext'
 import { PostCard } from './components/PostCard'
 import { Profile } from './components/Profile'
-import { SearchForm } from './components/SearchForm'
-import { HomeContainer, PostList } from './styles'
+import { HomeContainer, SearchForm, PostsList, SearchContainer } from './styles'
 
 export function Home() {
-  const [query, setQuery] = useState('')
-  const [posts, setPosts] = useState<Post[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const {
+    isLoading,
+    isSearchingPosts,
+    posts,
+    profileData,
+    query,
+    setQueryValue,
+  } = useContextSelector(BlogContext, (context) => {
+    return {
+      isLoading: context.isLoading,
+      isSearchingPosts: context.isSearchingPosts,
+      posts: context.posts,
+      profileData: context.profileData,
+      query: context.query,
+      setQueryValue: context.setQueryValue,
+    }
+  })
 
-  const fetchPostsByQuery = useContextSelector(
-    BlogContext,
-    (context) => context.fetchPostsByQuery,
-  )
-
-  function onQueryChange(query: string) {
-    setQuery(query)
+  function handleSearchPosts(event: ChangeEvent<HTMLInputElement>) {
+    setQueryValue(event.target.value)
   }
 
-  useEffect(() => {
-    async function fetchPosts(query: string) {
-      try {
-        const posts = await fetchPostsByQuery(query)
-        setPosts(posts)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    setIsLoading(true)
-    const timer = setTimeout(() => {
-      fetchPosts(query)
-    }, 1000)
-
-    return () => clearTimeout(timer)
-  }, [query, fetchPostsByQuery])
+  const postsCount = posts.length ?? 0
 
   return (
     <HomeContainer>
-      <Profile />
-      <SearchForm postsCount={posts.length} onQueryChange={onQueryChange} />
       {isLoading ? (
-        <div>
-          <Spinner message="Buscando postagens..." />
-        </div>
+        <Spinner message="Buscando dados do perfil..." />
       ) : (
-        <PostList>
-          {posts.map((post) => {
-            return <PostCard key={post.number} post={post} />
-          })}
-        </PostList>
+        <div>
+          <Profile profileData={profileData} />
+          <SearchForm>
+            <header>
+              <h2>Publicações</h2>
+
+              {postsCount === 1 ? (
+                <span>{postsCount} Publicação</span>
+              ) : (
+                <span>{postsCount} Publicações</span>
+              )}
+            </header>
+
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="text"
+                placeholder="Buscar conteúdo"
+                onChange={handleSearchPosts}
+                value={query}
+              />
+            </form>
+          </SearchForm>
+
+          <SearchContainer>
+            {isSearchingPosts ? (
+              <Spinner message="Buscando postagens..." showBackground={false} />
+            ) : (
+              <PostsList>
+                {posts.map((post) => (
+                  <PostCard key={post.number} post={post} />
+                ))}
+              </PostsList>
+            )}
+          </SearchContainer>
+        </div>
       )}
     </HomeContainer>
   )

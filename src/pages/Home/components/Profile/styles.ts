@@ -9,10 +9,6 @@ export const ProfileContainer = styled.section`
 
   display: flex;
   justify-content: center;
-`
-
-export const ProfileContent = styled.div`
-  display: flex;
   flex: 1;
   gap: 2rem;
 

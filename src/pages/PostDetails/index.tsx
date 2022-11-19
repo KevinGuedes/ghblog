@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useContextSelector } from 'use-context-selector'
 import { Spinner } from '../../components/Spinner'
@@ -9,43 +9,36 @@ import { PostDetailsContainer } from './styles'
 
 export function PostDetails() {
   const { postNumber } = useParams()
-  const [post, setPost] = useState<Post>({} as Post)
-  const [isLoading, setIsLoading] = useState(true)
+  const [post, setPost] = useState<Post | undefined>()
 
-  const fetchPostByPostNumber = useContextSelector(
+  const { isLoading, fetchPostByPostNumber } = useContextSelector(
     BlogContext,
-    (context) => context.fetchPostByPostNumber,
-  )
-
-  const fetchPostDetailsByNumber = useCallback(
-    async (postNumber: number) => {
-      try {
-        setIsLoading(true)
-        const post = await fetchPostByPostNumber(Number(postNumber))
-        if (post) {
-          setPost(post)
-        }
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setIsLoading(false)
+    (context) => {
+      return {
+        isLoading: context.isLoading,
+        fetchPostByPostNumber: context.fetchPostByPostNumber,
       }
     },
-    [fetchPostByPostNumber],
   )
 
+  console.log({ isLoading, post })
   useEffect(() => {
-    if (postNumber) {
-      fetchPostDetailsByNumber(Number(postNumber))
+    async function fetchPostDetails() {
+      console.log('testing')
+      if (postNumber && post === undefined) {
+        console.log('calling')
+
+        setPost(await fetchPostByPostNumber(Number(postNumber)))
+      }
     }
-  }, [fetchPostDetailsByNumber, postNumber])
+
+    fetchPostDetails()
+  }, [fetchPostByPostNumber, postNumber, post])
 
   return (
     <PostDetailsContainer>
-      {isLoading ? (
-        <div>
-          <Spinner message="Buscando dados da postagem..." />
-        </div>
+      {isLoading || post === undefined ? (
+        <Spinner message="Buscando dados da postagem..." />
       ) : (
         <article>
           <PostHeader post={post} />
