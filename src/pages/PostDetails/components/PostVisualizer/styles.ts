@@ -34,13 +34,18 @@ export const PostViewerContainer = styled.section`
   }
 
   hr {
-    border: 0.5px solid ${(props) => props.theme.colors.base.label};
+    border: 0.5px solid ${(props) => props.theme.colors.base.border};
     margin: 1rem 0;
   }
 
   pre {
     font-size: ${(props) => props.theme.sizes.sm};
     margin: 1.5rem 0;
+
+    div {
+      border: 1px solid ${(props) => props.theme.colors.base.border};
+      background: ${(props) => props.theme.colors.base.profile} !important;
+    }
   }
 
   ul,
@@ -48,8 +53,17 @@ export const PostViewerContainer = styled.section`
     padding-left: 2rem;
   }
 
-  table {
-    border: 1px solid ${(props) => props.theme.colors.base.label};
+  img {
     width: 100%;
+    height: auto;
+  }
+
+  table {
+    border-collapse: collapse;
+    td,
+    th {
+      padding: 0.5rem 1rem;
+      border: 1px solid ${(props) => props.theme.colors.base.border};
+    }
   }
 `

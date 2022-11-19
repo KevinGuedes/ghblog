@@ -51,6 +51,7 @@ export function BlogContextProvider({ children }: BlogContextProviderProps) {
       const postsResponse = await api.get<{ items: Post[] }>('search/issues', {
         params: {
           q: `repo:${user}/${repo} is:issue ${query}`,
+          sort: 'updated',
         },
       })
 

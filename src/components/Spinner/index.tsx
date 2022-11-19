@@ -1,4 +1,4 @@
-import { SpinnerContainer, SpinnerElement } from './styled'
+import { SpinnerContainer, SpinnerElement } from './styles'
 
 interface SpinnerProps {
   message?: string

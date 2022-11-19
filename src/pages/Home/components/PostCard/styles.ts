@@ -6,6 +6,9 @@ export const PostCardContainer = styled.article`
   gap: 1.25rem;
   height: 16.25rem;
 
+  flex: 1 1 26rem;
+  min-width: 26rem;
+
   background: ${(props) => props.theme.colors.base.post};
   border: 2px solid transparent;
   border-radius: 10px;
@@ -40,7 +43,7 @@ export const PostCardContainer = styled.article`
   p {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     text-align: justify;
   }

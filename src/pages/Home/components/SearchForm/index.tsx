@@ -15,7 +15,12 @@ export function SearchForm({ postsCount, onQueryChange }: SearchFormProps) {
     <SearchFormContainer>
       <header>
         <h2>Publicações</h2>
-        <span>{postsCount} publicações</span>
+
+        {postsCount === 1 ? (
+          <span>{postsCount} Publicação</span>
+        ) : (
+          <span>{postsCount} Publicações</span>
+        )}
       </header>
 
       <form onSubmit={(e) => e.preventDefault()}>
