@@ -29,6 +29,12 @@ export const PostCardContainer = styled.article`
     h1 {
       flex: 1;
       color: ${(props) => props.theme.colors.base.title};
+      font-size: ${(props) => props.theme.sizes.xl};
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     time {
@@ -41,10 +47,24 @@ export const PostCardContainer = styled.article`
   }
 
   p {
+    --line-height: 1.6;
+    line-height: var(--line-height);
+
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    text-align: justify;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      height: calc(2rem * var(--line-height));
+      width: 100%;
+      bottom: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        ${(props) => props.theme.colors.base.post}
+      );
+    }
   }
 `

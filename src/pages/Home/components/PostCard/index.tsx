@@ -27,7 +27,7 @@ export function PostCard({ post }: PostCardProps) {
   })
 
   return (
-    <PostCardContainer onClick={handleCardClick}>
+    <PostCardContainer onClick={handleCardClick} title={post.title}>
       <header>
         <h1>{post.title}</h1>
         <time title={formattedCreationDate} dateTime={post.created_at}>
