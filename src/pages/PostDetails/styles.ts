@@ -11,4 +11,10 @@ export const PostDetailsContainer = styled.div`
     flex-direction: column;
     justify-content: center;
   }
+
+  article {
+    > div {
+      padding: 2.5rem 2rem;
+    }
+  }
 `

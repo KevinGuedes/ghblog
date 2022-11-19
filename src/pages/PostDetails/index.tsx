@@ -4,7 +4,7 @@ import { useContextSelector } from 'use-context-selector'
 import { Spinner } from '../../components/Spinner'
 import { BlogContext, Post } from '../../contexts/BlogContext'
 import { PostHeader } from './components/PostHeader'
-import { PostViewer } from './components/PostVisualizer'
+import { PostViewer } from '../../components/PostVisualizer'
 import { PostDetailsContainer } from './styles'
 
 export function PostDetails() {
@@ -49,7 +49,9 @@ export function PostDetails() {
       ) : (
         <article>
           <PostHeader post={post} />
-          <PostViewer markdown={post.body} />
+          <div>
+            <PostViewer markdown={post.body} />
+          </div>
         </article>
       )}
     </PostDetailsContainer>

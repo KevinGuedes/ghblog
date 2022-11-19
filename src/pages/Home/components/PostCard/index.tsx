@@ -4,6 +4,7 @@ import { PostCardContainer } from './styles'
 
 import { format, formatDistanceToNowStrict } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import { PostViewer } from '../../../../components/PostVisualizer'
 
 interface PostCardProps {
   post: Post
@@ -34,7 +35,9 @@ export function PostCard({ post }: PostCardProps) {
           {creationDateRelativeToNow}
         </time>
       </header>
-      <p>{post.body}</p>
+      <div>
+        <PostViewer markdown={post.body} />
+      </div>
     </PostCardContainer>
   )
 }

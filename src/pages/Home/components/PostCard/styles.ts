@@ -46,25 +46,7 @@ export const PostCardContainer = styled.article`
     }
   }
 
-  p {
-    --line-height: 1.6;
-    line-height: var(--line-height);
-
+  div {
     overflow: hidden;
-    position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      height: calc(2rem * var(--line-height));
-      width: 100%;
-      bottom: 0;
-      pointer-events: none;
-      background: linear-gradient(
-        to bottom,
-        transparent,
-        ${(props) => props.theme.colors.base.post}
-      );
-    }
   }
 `

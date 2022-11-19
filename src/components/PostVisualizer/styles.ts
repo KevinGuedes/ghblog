@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
 export const PostViewerContainer = styled.section`
-  padding: 2.5rem 2rem;
-
   a {
     text-decoration: none;
     color: ${(props) => props.theme.colors.brand.blue};
