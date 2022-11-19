@@ -21,14 +21,11 @@ export function PostDetails() {
     },
   )
 
-  console.log({ isLoading, post })
   useEffect(() => {
     async function fetchPostDetails() {
-      console.log('testing')
       if (postNumber && post === undefined) {
-        console.log('calling')
-
-        setPost(await fetchPostByPostNumber(Number(postNumber)))
+        const post = await fetchPostByPostNumber(Number(postNumber))
+        setPost(post)
       }
     }
 

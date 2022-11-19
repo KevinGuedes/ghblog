@@ -63,7 +63,6 @@ export function BlogContextProvider({ children }: BlogContextProviderProps) {
 
   const fetchPostsByQuery = useCallback(
     async (query: string): Promise<Post[]> => {
-      console.log('calling search api')
       const postsResponse = await api.get<{ items: Post[] }>('search/issues', {
         params: {
           q: `repo:${user}/${repo} is:issue ${query}`,
