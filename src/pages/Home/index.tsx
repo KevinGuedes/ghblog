@@ -4,7 +4,7 @@ import { Spinner } from '../../components/Spinner'
 import { BlogContext } from '../../contexts/BlogContext'
 import { PostCard } from './components/PostCard'
 import { Profile } from './components/Profile'
-import { HomeContainer, SearchForm, PostsList, SearchContainer } from './styles'
+import { SearchForm, PostsList, SearchResults } from './styles'
 
 export function Home() {
   const {
@@ -32,7 +32,7 @@ export function Home() {
   const postsCount = isLoading ? 0 : posts.length
 
   return (
-    <HomeContainer>
+    <>
       {isLoading ? (
         <Spinner message="Buscando dados do perfil..." />
       ) : (
@@ -59,7 +59,7 @@ export function Home() {
             </form>
           </SearchForm>
 
-          <SearchContainer>
+          <SearchResults>
             {isSearchingPosts ? (
               <Spinner message="Buscando postagens..." showBackground={false} />
             ) : (
@@ -69,9 +69,9 @@ export function Home() {
                 ))}
               </PostsList>
             )}
-          </SearchContainer>
+          </SearchResults>
         </div>
       )}
-    </HomeContainer>
+    </>
   )
 }

@@ -1,11 +1,5 @@
 import styled from 'styled-components'
 
-export const HomeContainer = styled.div`
-  > div {
-    margin-top: 3rem;
-  }
-`
-
 export const SearchForm = styled.section`
   display: flex;
   flex-direction: column;
@@ -45,7 +39,7 @@ export const SearchForm = styled.section`
   }
 `
 
-export const SearchContainer = styled.div`
+export const SearchResults = styled.div`
   margin-top: 3rem;
 `
 
