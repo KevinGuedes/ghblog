@@ -7,13 +7,14 @@ import remarkGfm from 'remark-gfm'
 
 interface PostViewerProps {
   markdown: string
+  enableGfm?: boolean
 }
 
-export function PostViewer({ markdown }: PostViewerProps) {
+export function PostViewer({ markdown, enableGfm = true }: PostViewerProps) {
   return (
     <PostViewerContainer>
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={enableGfm ? [remarkGfm] : []}
         components={{
           a({ href, title, children }) {
             return (

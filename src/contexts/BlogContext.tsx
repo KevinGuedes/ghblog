@@ -64,6 +64,9 @@ export function BlogContextProvider({ children }: BlogContextProviderProps) {
   const fetchPostsByQuery = useCallback(
     async (query: string): Promise<Post[]> => {
       const postsResponse = await api.get<{ items: Post[] }>('search/issues', {
+        headers: {
+          accept: 'application/vnd.github+json',
+        },
         params: {
           q: `repo:${user}/${repo} is:issue ${query}`,
           sort: 'updated',
@@ -105,20 +108,18 @@ export function BlogContextProvider({ children }: BlogContextProviderProps) {
     }
 
     let timer: ReturnType<typeof setTimeout> | null
-
     if (isSearchEnabled.current) {
       setIsSearchingPosts(true)
-      setPosts([])
 
       timer = setTimeout(() => {
         fetchPosts(query)
-      }, 1000)
+      }, 500)
     } else {
       isSearchEnabled.current = true
     }
 
     return () => {
-      if (timer !== null) {
+      if (timer) {
         clearTimeout(timer)
       }
     }

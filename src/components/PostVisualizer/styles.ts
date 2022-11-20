@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
 export const PostViewerContainer = styled.section`
+  overflow: hidden;
+
   a {
     text-decoration: none;
     color: ${(props) => props.theme.colors.brand.blue};
@@ -58,6 +60,7 @@ export const PostViewerContainer = styled.section`
 
   table {
     border-collapse: collapse;
+
     td,
     th {
       padding: 0.5rem 1rem;

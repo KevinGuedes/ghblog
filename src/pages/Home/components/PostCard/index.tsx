@@ -35,9 +35,7 @@ export function PostCard({ post }: PostCardProps) {
           {creationDateRelativeToNow}
         </time>
       </header>
-      <div>
-        <PostViewer markdown={post.body} />
-      </div>
+      <PostViewer markdown={post.body} enableGfm={false} />
     </PostCardContainer>
   )
 }

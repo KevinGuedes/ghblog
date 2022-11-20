@@ -29,7 +29,7 @@ export function Home() {
     setQueryValue(event.target.value)
   }
 
-  const postsCount = isLoading ? 0 : posts.length
+  const postsCount = isSearchingPosts ? 0 : posts.length
 
   return (
     <>
