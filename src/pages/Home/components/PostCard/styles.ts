@@ -1,10 +1,12 @@
 import styled from 'styled-components'
+import { devices } from '../../../../styles/devices'
 
 export const PostCardContainer = styled.article`
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
   height: 16.25rem;
+  max-width: 26rem;
 
   background: ${(props) => props.theme.colors.base.post};
   border: 2px solid transparent;
@@ -45,5 +47,9 @@ export const PostCardContainer = styled.article`
 
   div {
     overflow: hidden;
+  }
+
+  @media ${devices.mobile} {
+    max-width: none;
   }
 `
