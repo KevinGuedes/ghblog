@@ -38,7 +38,7 @@ export function PostHeader({ post }: PostHeaderProps) {
           VER NO GITHUB <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
         </a>
       </HeaderNavigation>
-      <h1>{post.title}</h1>
+      <h1 title={post.title}>{post.title}</h1>
       <PostInfo>
         <span>
           <FontAwesomeIcon icon={faGithub} />

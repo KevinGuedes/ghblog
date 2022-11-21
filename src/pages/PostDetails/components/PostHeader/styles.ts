@@ -13,7 +13,11 @@ export const PostHeaderContainer = styled.header`
   h1 {
     font-size: ${(props) => props.theme.sizes['2xl']};
     color: ${(props) => props.theme.colors.base.title};
-    margin: 1rem 0 0.75rem;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 `
 
