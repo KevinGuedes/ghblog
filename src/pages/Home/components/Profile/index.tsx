@@ -38,7 +38,9 @@ export function Profile({ profileData }: ProfileProps) {
           </span>
           <span>
             <FontAwesomeIcon icon={faUserGroup} />
-            {profileData.followers} seguidor(es)
+            {profileData.followers === 1
+              ? '1 Seguidor'
+              : `${profileData.followers} Seguidores`}
           </span>
         </ProfileInfo>
       </div>

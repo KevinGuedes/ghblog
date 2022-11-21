@@ -50,6 +50,10 @@ export const PostInfo = styled.div`
   gap: 2rem;
   margin-top: 0.5rem;
 
+  time::first-letter {
+    text-transform: uppercase;
+  }
+
   span {
     display: flex;
     align-items: center;

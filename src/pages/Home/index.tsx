@@ -43,7 +43,7 @@ export function Home() {
               <h2>Publicações</h2>
 
               {postsCount === 1 ? (
-                <span>{postsCount} Publicação</span>
+                <span>1 Publicação</span>
               ) : (
                 <span>{postsCount} Publicações</span>
               )}

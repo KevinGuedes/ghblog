@@ -52,7 +52,7 @@ export function PostHeader({ post }: PostHeaderProps) {
         </span>
         <span>
           <FontAwesomeIcon icon={faComment} />
-          {post.comments} comentário(s)
+          {post.comments} Comentário(s)
         </span>
       </PostInfo>
     </PostHeaderContainer>
