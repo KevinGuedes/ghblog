@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
 export const NewPostContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+
   header {
     padding: 2rem 2.5rem;
     height: 13.25rem;

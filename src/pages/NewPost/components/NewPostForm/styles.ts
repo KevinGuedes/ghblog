@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components'
 import { Content } from '@radix-ui/react-tabs'
 
 export const NewPostFormContainer = styled.form`
-  margin-top: 3rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -52,7 +51,7 @@ export const NewPostFormContainer = styled.form`
     min-height: 12.5rem;
   }
 
-  > button {
+  button[type='submit'] {
     padding: 0.75rem;
     border-radius: 6px;
     background: ${(props) => props.theme.colors.brand.blue};
@@ -63,6 +62,7 @@ export const NewPostFormContainer = styled.form`
     align-items: center;
     gap: 1rem;
     cursor: pointer;
+    border: 0;
 
     &:disabled {
       opacity: 0.7;
@@ -81,7 +81,7 @@ interface TabContentProps {
 }
 
 export const TabContent = styled(Content)<TabContentProps>`
-  div {
+  > div {
     ${(props) =>
       props.variant === 'input'
         ? css`

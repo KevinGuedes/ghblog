@@ -8,8 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { PostViewer } from '../../../../components/PostVisualizer'
 
 const newPostFormSchema = z.object({
-  title: z.string(),
-  body: z.string(),
+  title: z.string().min(1, 'Informe o título da sua nova postagem'),
+  body: z.string().min(1, 'Informe o conteúdo da sua nova postagem'),
 })
 
 type NewPostFormData = z.infer<typeof newPostFormSchema>
@@ -20,7 +20,7 @@ export function NewPostForm() {
     handleSubmit,
     watch,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid, isDirty },
   } = useForm<NewPostFormData>({
     resolver: zodResolver(newPostFormSchema),
   })
@@ -66,7 +66,7 @@ export function NewPostForm() {
         </TabContent>
       </Tabs.Root>
 
-      <button type="submit" disabled={isSubmitting}>
+      <button type="submit" disabled={isSubmitting || !isDirty || !isValid}>
         <FontAwesomeIcon icon={faPlusCircle} />
         Criar Nova Postagem
       </button>
