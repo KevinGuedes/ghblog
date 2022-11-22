@@ -50,7 +50,7 @@ export const PostsList = styled.ul`
   list-style: none;
 
   &:has(li:hover) li:not(:hover) {
-    opacity: 0.6;
+    opacity: 0.5;
     scale: 0.99;
   }
 `

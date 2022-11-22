@@ -4,7 +4,7 @@ export const PostHeaderContainer = styled.header`
   background: ${(props) => props.theme.colors.base.profile};
   padding: 2rem 2.5rem;
   border-radius: 10px;
-  height: 13.25rem;
+  min-height: 13.25rem;
   box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;

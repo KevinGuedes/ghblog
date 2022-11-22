@@ -7,7 +7,7 @@ export const NewPostContainer = styled.section`
 
   header {
     padding: 2rem 2.5rem;
-    height: 13.25rem;
+    min-height: 13.25rem;
     background: ${(props) => props.theme.colors.base.profile};
     border-radius: 10px;
     box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.2);
