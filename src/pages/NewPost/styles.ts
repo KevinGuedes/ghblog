@@ -9,23 +9,45 @@ export const NewPostContainer = styled.section`
     box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.2);
 
     display: flex;
-    gap: 2rem;
-
-    img {
-      width: 9.25rem;
-      height: 9.25rem;
-      border-radius: 8px;
-    }
+    flex-direction: column;
+    gap: 1rem;
 
     div {
       display: flex;
+      justify-content: space-between;
       flex-direction: column;
-      justify-content: space-evenly;
+      height: 100%;
+
+      h1 {
+        font-weight: 400;
+      }
     }
 
-    span,
     p {
       font-size: ${(props) => props.theme.sizes.l};
+    }
+  }
+`
+
+export const HeaderNavigation = styled.nav`
+  width: fit-content;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: ${(props) => props.theme.sizes.xsm};
+    color: ${(props) => props.theme.colors.brand.blue};
+
+    border-bottom: 1px solid transparent;
+    padding: 0.1rem;
+
+    &:hover {
+      transition: border-color 0.3s;
+      border-color: ${(props) => props.theme.colors.brand.blue};
     }
   }
 `
