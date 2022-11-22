@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { devices } from '../../../../styles/devices'
 
-export const PostCardContainer = styled.article`
+export const PostCardContainer = styled.li`
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -13,9 +13,9 @@ export const PostCardContainer = styled.article`
   border-radius: 10px;
   padding: 2rem;
   cursor: pointer;
+  transition: all 0.4s;
 
   &:hover {
-    transition: border-color 0.2s;
     border-color: ${(props) => props.theme.colors.base.label};
   }
 

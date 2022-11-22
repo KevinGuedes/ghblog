@@ -43,8 +43,14 @@ export const SearchResults = styled.div`
   margin-top: 3rem;
 `
 
-export const PostsList = styled.section`
+export const PostsList = styled.ul`
   gap: 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(21rem, 100%), 1fr));
+  list-style: none;
+
+  &:has(li:hover) li:not(:hover) {
+    opacity: 0.6;
+    scale: 0.99;
+  }
 `
