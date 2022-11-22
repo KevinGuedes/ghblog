@@ -57,6 +57,7 @@ export function NewPostForm() {
               required
               {...register('body')}
             />
+            <div></div>
           </div>
         </TabContent>
         <TabContent value="preview" variant="preview">

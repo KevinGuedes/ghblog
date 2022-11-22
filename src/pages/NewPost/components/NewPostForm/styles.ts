@@ -86,6 +86,29 @@ export const TabContent = styled(Content)<TabContentProps>`
       props.variant === 'input'
         ? css`
             line-height: 0;
+            position: relative;
+            z-index: 1;
+
+            :focus-within {
+              div {
+                border-top: 14px solid
+                  ${(props) => props.theme.colors.brand.blue};
+              }
+            }
+
+            div {
+              border-top: 14px solid ${(props) => props.theme.colors.base.label};
+              border-left: 14px solid transparent;
+              border-right: 14px solid transparent;
+              position: absolute;
+              pointer-events: none;
+              width: 0px;
+              height: 0px;
+              bottom: -5px;
+              right: -11px;
+              z-index: 2;
+              -webkit-transform: rotate(-45deg);
+            }
           `
         : css`
             min-height: 5rem;

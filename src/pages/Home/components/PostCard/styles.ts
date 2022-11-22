@@ -9,7 +9,7 @@ export const PostCardContainer = styled.li`
   max-width: 26rem;
 
   background: ${(props) => props.theme.colors.base.post};
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 10px;
   padding: 2rem;
   cursor: pointer;
@@ -43,10 +43,6 @@ export const PostCardContainer = styled.li`
         text-transform: uppercase;
       }
     }
-  }
-
-  div {
-    overflow: hidden;
   }
 
   @media ${devices.mobile} {
