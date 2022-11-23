@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import { useContextSelector } from 'use-context-selector'
 import { Spinner } from '../../components/Spinner'
 import { BlogContext } from '../../contexts/BlogContext'
-import { PostCard } from './components/PostCard'
 import { Profile } from './components/Profile'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { SearchForm, PostsList, SearchResults, HomeContainer } from './styles'
+import { SearchForm, SearchResults, HomeContainer } from './styles'
+import { PostsList } from './components/PostsList'
 
 export function Home() {
   const {
@@ -66,11 +66,7 @@ export function Home() {
             {isSearchingPosts ? (
               <Spinner message="Buscando postagens..." showBackground={false} />
             ) : (
-              <PostsList>
-                {posts.map((post) => (
-                  <PostCard key={post.number} post={post} />
-                ))}
-              </PostsList>
+              <PostsList posts={posts} />
             )}
           </SearchResults>
 
