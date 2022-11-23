@@ -6,8 +6,13 @@ export const PostsListContainer = styled.ul`
   grid-template-columns: repeat(auto-fit, minmax(min(21rem, 100%), 1fr));
   list-style: none;
 
-  &:has(li:hover) li:not(:hover) {
-    opacity: 0.5;
-    scale: 0.99;
+  &:has(li:hover) {
+    li:not(:hover) {
+      opacity: 0.5;
+    }
+
+    li:hover {
+      scale: 1.01;
+    }
   }
 `

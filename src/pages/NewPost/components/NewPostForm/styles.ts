@@ -49,6 +49,7 @@ export const NewPostFormContainer = styled.form`
   textarea {
     resize: vertical;
     min-height: 12.5rem;
+    max-height: none;
   }
 `
 

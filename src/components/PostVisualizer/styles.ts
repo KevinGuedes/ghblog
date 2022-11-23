@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const PostViewerContainer = styled.div`
   overflow: hidden;
+  word-break: break-word;
 
   a {
     text-decoration: none;
