@@ -50,29 +50,31 @@ export const NewPostFormContainer = styled.form`
     resize: vertical;
     min-height: 12.5rem;
   }
+`
 
-  button[type='submit'] {
-    padding: 0.75rem;
-    border-radius: 6px;
-    background: ${(props) => props.theme.colors.brand.blue};
-    color: ${(props) => props.theme.colors.base.title};
-    font-weight: bold;
-    align-self: flex-end;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    cursor: pointer;
-    border: 0;
+export const SubmitButton = styled.button`
+  padding: 0.75rem;
+  border-radius: 6px;
+  width: 11rem;
+  background: ${(props) => props.theme.colors.brand.blue};
+  color: ${(props) => props.theme.colors.base.title};
+  font-weight: bold;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1rem;
+  cursor: pointer;
+  border: 0;
 
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 
-    &:not(:disabled):hover {
-      transition: background-color 0.2s;
-      background: ${(props) => props.theme.colors.brand['blue-lighter']};
-    }
+  &:not(:disabled):hover {
+    transition: background-color 0.2s;
+    background: ${(props) => props.theme.colors.brand['blue-lighter']};
   }
 `
 
@@ -81,7 +83,11 @@ interface TabContentProps {
 }
 
 export const TabContent = styled(Content)<TabContentProps>`
+  border-radius: 6px;
+
   > div {
+    border-radius: 6px;
+
     ${(props) =>
       props.variant === 'input'
         ? css`
@@ -114,7 +120,24 @@ export const TabContent = styled(Content)<TabContentProps>`
             min-height: 5rem;
             padding: 1rem;
             border: 1px solid ${(props) => props.theme.colors.base.border};
-            border-radius: 6px;
           `}
+  }
+`
+
+export const SmallSpinner = styled.div`
+  border: 4px solid ${(props) => props.theme.colors.brand['blue-lighter']};
+  border-radius: 50%;
+  border-top: 4px solid ${(props) => props.theme.colors.base.title};
+  width: 20px;
+  height: 20px;
+  animation: spin 1.5s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `

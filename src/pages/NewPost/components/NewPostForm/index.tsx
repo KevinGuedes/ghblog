@@ -2,10 +2,18 @@ import * as Tabs from '@radix-ui/react-tabs'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { NewPostFormContainer, TabContent } from './styles'
+import {
+  NewPostFormContainer,
+  SmallSpinner,
+  SubmitButton,
+  TabContent,
+} from './styles'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { PostViewer } from '../../../../components/PostVisualizer'
+import { useContextSelector } from 'use-context-selector'
+import { BlogContext } from '../../../../contexts/BlogContext'
+import { useNavigate } from 'react-router-dom'
 
 const newPostFormSchema = z.object({
   title: z.string().min(1, 'Informe o título da sua nova postagem'),
@@ -15,6 +23,11 @@ const newPostFormSchema = z.object({
 type NewPostFormData = z.infer<typeof newPostFormSchema>
 
 export function NewPostForm() {
+  const createNewPost = useContextSelector(
+    BlogContext,
+    (context) => context.createNewPost,
+  )
+
   const {
     register,
     handleSubmit,
@@ -25,9 +38,16 @@ export function NewPostForm() {
     resolver: zodResolver(newPostFormSchema),
   })
 
-  function handleCreateNewPost(data: NewPostFormData) {
-    console.log(data)
-    reset()
+  const navigate = useNavigate()
+
+  async function handleCreateNewPost(data: NewPostFormData) {
+    const newPost = await createNewPost(data)
+    if (newPost) {
+      navigate(`/post/${newPost.number}`, {
+        state: newPost,
+      })
+      reset()
+    }
   }
 
   const body = watch('body')
@@ -67,10 +87,22 @@ export function NewPostForm() {
         </TabContent>
       </Tabs.Root>
 
-      <button type="submit" disabled={isSubmitting || !isDirty || !isValid}>
-        <FontAwesomeIcon icon={faPlusCircle} />
-        Criar Nova Postagem
-      </button>
+      <SubmitButton
+        type="submit"
+        disabled={isSubmitting || !isDirty || !isValid}
+      >
+        {isSubmitting ? (
+          <>
+            <SmallSpinner />
+            Criando Post
+          </>
+        ) : (
+          <>
+            <FontAwesomeIcon icon={faPlusCircle} />
+            Criar Novo Post
+          </>
+        )}
+      </SubmitButton>
     </NewPostFormContainer>
   )
 }
