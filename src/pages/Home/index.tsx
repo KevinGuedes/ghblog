@@ -1,10 +1,13 @@
 import { ChangeEvent } from 'react'
+import { Link } from 'react-router-dom'
 import { useContextSelector } from 'use-context-selector'
 import { Spinner } from '../../components/Spinner'
 import { BlogContext } from '../../contexts/BlogContext'
-import { PostCard } from './components/PostCard'
 import { Profile } from './components/Profile'
-import { SearchForm, PostsList, SearchResults } from './styles'
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { SearchForm, SearchResults, HomeContainer } from './styles'
+import { PostsList } from './components/PostsList'
 
 export function Home() {
   const {
@@ -36,7 +39,7 @@ export function Home() {
       {isLoading ? (
         <Spinner message="Buscando dados do perfil..." />
       ) : (
-        <div>
+        <HomeContainer>
           <Profile profileData={profileData} />
           <SearchForm>
             <header>
@@ -63,14 +66,15 @@ export function Home() {
             {isSearchingPosts ? (
               <Spinner message="Buscando postagens..." showBackground={false} />
             ) : (
-              <PostsList>
-                {posts.map((post) => (
-                  <PostCard key={post.number} post={post} />
-                ))}
-              </PostsList>
+              <PostsList posts={posts} />
             )}
           </SearchResults>
-        </div>
+
+          <Link to="/post/new">
+            <FontAwesomeIcon icon={faPlusCircle} />
+            Criar Novo Post
+          </Link>
+        </HomeContainer>
       )}
     </>
   )

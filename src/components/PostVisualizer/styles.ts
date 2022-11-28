@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
-export const PostViewerContainer = styled.section`
+export const PostViewerContainer = styled.div`
   overflow: hidden;
+  word-break: break-word;
 
   a {
     text-decoration: none;
@@ -66,5 +67,9 @@ export const PostViewerContainer = styled.section`
       padding: 0.5rem 1rem;
       border: 1px solid ${(props) => props.theme.colors.base.border};
     }
+  }
+
+  p {
+    white-space: pre;
   }
 `

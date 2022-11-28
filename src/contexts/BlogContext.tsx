@@ -24,6 +24,11 @@ export interface Post {
   }
 }
 
+interface NewPostData {
+  title: string
+  body: string
+}
+
 interface BlogContextData {
   isLoading: boolean
   isSearchingPosts: boolean
@@ -33,6 +38,7 @@ interface BlogContextData {
   fetchInititalData: () => Promise<void>
   setQueryValue: (query: string) => void
   fetchPostByPostNumber(postNumber: number): Promise<Post | undefined>
+  createNewPost(data: NewPostData): Promise<Post | undefined>
 }
 
 export const BlogContext = createContext({} as BlogContextData)
@@ -125,6 +131,20 @@ export function BlogContextProvider({ children }: BlogContextProviderProps) {
     }
   }, [query, fetchPostsByQuery])
 
+  async function createNewPost(data: NewPostData) {
+    try {
+      const { data: newPost } = await api.post<Post>(
+        `repos/${user}/${repo}/issues`,
+        data,
+      )
+
+      setPosts((state) => [newPost, ...state])
+      return newPost
+    } catch {
+      console.error('Failed to create new post')
+    }
+  }
+
   const fetchInititalData = useCallback(async () => {
     try {
       setIsLoading(true)
@@ -157,6 +177,7 @@ export function BlogContextProvider({ children }: BlogContextProviderProps) {
         fetchInititalData,
         setQueryValue,
         fetchPostByPostNumber,
+        createNewPost,
       }}
     >
       {children}

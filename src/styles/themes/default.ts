@@ -14,6 +14,7 @@ export const defaultTheme = {
     },
     brand: {
       blue: '#3294F8',
+      'blue-lighter': '#52a4f5',
     },
   },
   sizes: {
