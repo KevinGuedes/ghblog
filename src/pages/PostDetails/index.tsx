@@ -22,7 +22,7 @@ export function PostDetails() {
 
   const { postNumber } = useParams()
   const location = useLocation()
-  const createdPost = location.state
+  const createdPost = location.state as Post
 
   useEffect(() => {
     async function fetchPostDetails() {
